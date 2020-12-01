@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Input;
 using Caliburn.Micro;
@@ -58,6 +59,8 @@ namespace Gemini.Modules.MainMenu.Models
             _parent = parent;
 
             _listItems = new List<StandardMenuItem>();
+
+            command.PropertyChanged += OnCommandPropertyChanged;
         }
 
         CommandDefinitionBase ICommandUiItem.CommandDefinition
@@ -90,6 +93,25 @@ namespace Gemini.Modules.MainMenu.Models
                     _parent.Children.Insert(startIndex++, newMenuItem);
                     _listItems.Add(newMenuItem);
                 }
+            }
+        }
+
+        private void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Framework.Commands.Command.Text):
+                    NotifyOfPropertyChange(nameof(Text));
+                    break;
+                case nameof(Framework.Commands.Command.IconSource):
+                    NotifyOfPropertyChange(nameof(IconSource));
+                    break;
+                case nameof(Framework.Commands.Command.Checked):
+                    NotifyOfPropertyChange(nameof(IsChecked));
+                    break;
+                case nameof(Framework.Commands.Command.Visible):
+                    NotifyOfPropertyChange(nameof(IsVisible));
+                    break;
             }
         }
     }
