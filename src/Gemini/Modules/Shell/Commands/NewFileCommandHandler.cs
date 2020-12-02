@@ -34,6 +34,7 @@ namespace Gemini.Modules.Shell.Commands
                     commands.Add(new Command(command.CommandDefinition)
                     {
                         Text = editorFileType.Name,
+                        IconSource = editorFileType.IconSource,
                         Tag = new NewFileTag
                         {
                             EditorProvider = editorProvider,
